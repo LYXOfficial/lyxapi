@@ -20,6 +20,14 @@ class handler(BaseHTTPRequestHandler):
                 btotal+=b
         print(rtotal/w/h,gtotal/w/h,btotal/w/h)
     def do_GET(self):
+        if not ("?" in self.path and "url" in self.path):
+            self.send_response(400)
+            self.wfile.write("Your request parameter must have \'URL\'")
+            return
+        p=self.path.split("?")[1].split("&")
+        for i in p:
+            if p[:2]=="url":
+                url=p[3:]
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
